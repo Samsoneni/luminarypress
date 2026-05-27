@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luminary Press — Book Marketing & Promotion</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=Cinzel:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C9A84C;--gold-l:#E2C27D;--gold-p:#F5E6C0;
+  --black:#060504;--deep:#0D0A06;
+  --bw:#1A1208;--bm:#2A1E0E;
+  --tm:#EDE0C4;--ts:#A08B6A;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--tm);font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.7;overflow-x:hidden}
+
+/* noise */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");pointer-events:none;z-index:999;opacity:.4}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:18px clamp(20px,5vw,64px);display:flex;justify-content:space-between;align-items:center;background:rgba(6,5,4,0.82);backdrop-filter:blur(14px);border-bottom:1px solid rgba(201,168,76,0);transition:border-color .4s}
+nav.scrolled{border-bottom-color:rgba(201,168,76,.14)}
+.nav-brand{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.48em;color:var(--gold);text-decoration:none}
+.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links a{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.3em;color:var(--ts);text-decoration:none;text-transform:uppercase;transition:color .3s}
+.nav-links a:hover{color:var(--gold)}
+@media(max-width:600px){.nav-links{display:none}}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:100px 24px 0;background:radial-gradient(ellipse 80% 70% at 50% 25%,#1f1508 0%,var(--black) 72%);overflow:hidden}
+.hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+
+/* ── CANVAS SMOKE ── */
+#smokeCanvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+
+/* ── LOGO ── */
+.logo-wrap{position:relative;z-index:2;animation:float 6s ease-in-out infinite;margin-bottom:32px}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+.logo-svg{width:clamp(150px,26vw,240px);height:auto;filter:drop-shadow(0 0 32px rgba(201,168,76,.42)) drop-shadow(0 0 10px rgba(201,168,76,.22));animation:glow-pulse 6s ease-in-out infinite}
+@keyframes glow-pulse{0%,100%{filter:drop-shadow(0 0 28px rgba(201,168,76,.38)) drop-shadow(0 0 8px rgba(201,168,76,.2))}50%{filter:drop-shadow(0 0 52px rgba(201,168,76,.6)) drop-shadow(0 0 20px rgba(201,168,76,.38))}}
+
+.hero-wordmark{position:relative;z-index:2;text-align:center;margin-bottom:4px}
+.hero-wordmark h1{font-family:'Cinzel',serif;font-size:clamp(2rem,5.5vw,4rem);font-weight:500;color:var(--gold);letter-spacing:.32em;line-height:1}
+.hero-wordmark .sub{font-family:'Cinzel',serif;font-size:clamp(.65rem,1.8vw,.92rem);font-weight:400;letter-spacing:.6em;color:var(--gold-l);margin-top:10px;display:block}
+.hero-tagline{position:relative;z-index:2;font-style:italic;font-weight:300;font-size:clamp(1rem,2.4vw,1.35rem);color:var(--ts);text-align:center;margin-top:26px;max-width:500px;letter-spacing:.03em}
+
+/* ── TICKER ── */
+.ticker-wrap{width:100vw;margin-left:calc(-50vw + 50%);overflow:hidden;border-top:1px solid rgba(201,168,76,.16);border-bottom:1px solid rgba(201,168,76,.16);background:rgba(201,168,76,.03);padding:13px 0;margin-top:56px;position:relative;z-index:2}
+.ticker-track{display:flex;width:max-content;animation:tick 30s linear infinite}
+.ticker-item{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.28em;color:var(--gold);padding:0 36px;white-space:nowrap}
+.ticker-item span{color:var(--gold-l);margin-left:36px}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ── DIVIDER ── */
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.25),transparent)}
+
+/* ── SECTION BASE ── */
+section{padding:clamp(70px,10vw,120px) clamp(20px,6vw,80px);max-width:1100px;margin:0 auto}
+.sec-label{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.44em;color:var(--gold);text-transform:uppercase;margin-bottom:18px;display:flex;align-items:center;gap:16px}
+.sec-label::before{content:'';display:inline-block;width:28px;height:1px;background:var(--gold)}
+.sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(1.9rem,4.8vw,3.3rem);font-weight:400;color:var(--tm);line-height:1.15;margin-bottom:22px}
+.sec-title em{font-style:italic;color:var(--gold-l)}
+
+/* ── STATS STRIP ── */
+.stats-strip-outer{background:linear-gradient(180deg,var(--black) 0%,#130e05 100%);border-top:1px solid rgba(201,168,76,.12);border-bottom:1px solid rgba(201,168,76,.12)}
+.stats-strip{display:grid;grid-template-columns:repeat(4,1fr);max-width:1100px;margin:0 auto}
+@media(max-width:640px){.stats-strip{grid-template-columns:repeat(2,1fr)}}
+.stat-cell{padding:52px 28px;text-align:center;border-right:1px solid rgba(201,168,76,.1);position:relative;overflow:hidden}
+.stat-cell:last-child{border-right:none}
+.stat-cell::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:1px;background:var(--gold);transition:width .6s ease}
+.stat-cell:hover::after{width:60%}
+.stat-num{font-family:'Cinzel',serif;font-size:clamp(2rem,4vw,3rem);color:var(--gold);display:block;line-height:1;margin-bottom:10px}
+.stat-label{font-size:.8rem;letter-spacing:.14em;color:var(--ts);text-transform:uppercase;font-family:'Cinzel',serif}
+.stat-sub{font-size:.85rem;color:rgba(160,139,106,.6);font-style:italic;margin-top:4px;display:block;font-family:'Cormorant Garamond',serif}
+
+/* ── ABOUT ── */
+.about-body{display:grid;grid-template-columns:1fr 1fr;gap:60px 80px;align-items:start;margin-top:48px}
+@media(max-width:760px){.about-body{grid-template-columns:1fr;gap:40px}}
+.about-text p{color:var(--ts);font-size:1.08rem;font-weight:300;line-height:1.9;margin-bottom:18px}
+.about-text p strong{color:var(--gold-l);font-weight:500;font-style:italic}
+.about-pull{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(1.4rem,3vw,2rem);font-weight:300;color:var(--tm);line-height:1.45;padding-left:28px;border-left:1px solid var(--gold);margin-top:8px}
+
+/* ── SERVICES ── */
+.services-outer{background:linear-gradient(180deg,var(--black) 0%,#130e05 40%,var(--black) 100%);padding:clamp(70px,10vw,120px) 0}
+.services-inner{max-width:1100px;margin:0 auto;padding:0 clamp(20px,6vw,80px)}
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:52px;border:1px solid rgba(201,168,76,.1)}
+@media(max-width:800px){.services-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:500px){.services-grid{grid-template-columns:1fr}}
+.svc-card{padding:42px 30px;border-right:1px solid rgba(201,168,76,.09);border-bottom:1px solid rgba(201,168,76,.09);background:#060504;transition:background .4s;position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);transition:width .5s ease}
+.svc-card:hover{background:rgba(201,168,76,.04)}
+.svc-card:hover::before{width:100%}
+.svc-card:nth-child(3n){border-right:none}
+.svc-num{font-family:'Cinzel',serif;font-size:.58rem;letter-spacing:.35em;color:rgba(201,168,76,.35);margin-bottom:18px;display:block}
+.svc-title{font-family:'Cinzel',serif;font-size:.78rem;letter-spacing:.16em;color:var(--gold-l);text-transform:uppercase;margin-bottom:14px}
+.svc-desc{font-size:.95rem;color:var(--ts);font-weight:300;line-height:1.8}
+
+/* ── PROCESS ── */
+.process-list{margin-top:52px;display:flex;flex-direction:column}
+.proc-item{display:grid;grid-template-columns:72px 1fr;gap:0 36px;padding:38px 0;border-bottom:1px solid rgba(201,168,76,.09);transition:padding-left .35s ease}
+.proc-item:hover{padding-left:10px}
+.proc-item:last-child{border-bottom:none}
+.proc-num{font-family:'Cinzel',serif;font-size:2.6rem;font-weight:400;color:rgba(201,168,76,.13);line-height:1;padding-top:4px;transition:color .4s}
+.proc-item:hover .proc-num{color:rgba(201,168,76,.38)}
+.proc-content h3{font-family:'Cinzel',serif;font-size:.82rem;letter-spacing:.2em;color:var(--gold-l);margin-bottom:11px;text-transform:uppercase}
+.proc-content p{font-size:1rem;color:var(--ts);font-weight:300;max-width:540px}
+@media(max-width:500px){.proc-item{grid-template-columns:46px 1fr;gap:0 20px}.proc-num{font-size:2rem}}
+
+/* ── TESTIMONIALS ── */
+.testi-outer{background:var(--bw);padding:clamp(70px,10vw,120px) 0;position:relative;overflow:hidden}
+.testi-outer::before{content:'\201C';position:absolute;top:-60px;left:4%;font-size:24rem;font-family:'Cormorant Garamond',serif;color:rgba(201,168,76,.035);line-height:1;pointer-events:none}
+.testi-inner{max-width:1100px;margin:0 auto;padding:0 clamp(20px,6vw,80px)}
+.testi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-top:52px}
+@media(max-width:680px){.testi-grid{grid-template-columns:1fr}}
+.testi-card{padding:42px 36px;border:1px solid rgba(201,168,76,.11);background:rgba(6,5,4,.75);position:relative}
+.testi-card::after{content:'';position:absolute;bottom:0;right:0;width:36px;height:1px;background:var(--gold)}
+.testi-card::before{content:'';position:absolute;bottom:0;right:0;width:1px;height:36px;background:var(--gold)}
+.testi-text{font-style:italic;font-weight:300;font-size:1.04rem;line-height:1.88;color:var(--tm);margin-bottom:26px}
+.testi-author{font-family:'Cinzel',serif;font-size:.62rem;letter-spacing:.3em;color:var(--gold);text-transform:uppercase}
+.testi-role{font-size:.85rem;color:var(--ts);margin-top:4px;font-style:italic}
+
+/* ── CTA ── */
+.cta-section{padding:clamp(80px,12vw,140px) clamp(20px,6vw,80px);max-width:1100px;margin:0 auto;text-align:center}
+.cta-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2.1rem,5.2vw,3.8rem);font-weight:300;color:var(--tm);line-height:1.22;margin:0 auto 38px;max-width:660px}
+.cta-title em{font-style:italic;color:var(--gold-l)}
+.cta-btn{display:inline-flex;align-items:center;gap:14px;padding:17px 42px;border:1px solid var(--gold);color:var(--gold);font-family:'Cinzel',serif;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;text-decoration:none;position:relative;overflow:hidden;transition:color .35s}
+.cta-btn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;z-index:0}
+.cta-btn:hover::before{transform:scaleX(1)}
+.cta-btn:hover{color:var(--black)}
+.cta-btn span{position:relative;z-index:1}
+.cta-email-label{margin-top:20px;font-size:.9rem;color:var(--ts);font-style:italic}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid rgba(201,168,76,.14);padding:44px clamp(20px,6vw,80px);display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.foot-brand{font-family:'Cinzel',serif;font-size:.65rem;letter-spacing:.42em;color:var(--gold)}
+.foot-copy{font-size:.8rem;color:var(--ts);font-style:italic}
+@media(max-width:500px){footer{flex-direction:column;text-align:center}}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.rd1{transition-delay:.1s}.rd2{transition-delay:.2s}.rd3{transition-delay:.3s}.rd4{transition-delay:.4s}.rd5{transition-delay:.5s}.rd6{transition-delay:.6s}
+
+/* hero entrance */
+.he{opacity:0;transform:translateY(18px);animation:hi 1.2s cubic-bezier(.16,1,.3,1) forwards}
+.he2{animation-delay:.25s}.he3{animation-delay:.45s}.he4{animation-delay:.65s}.he5{animation-delay:.85s}
+@keyframes hi{to{opacity:1;transform:translateY(0)}}
+
+/* counter animation */
+.count-num{display:inline-block}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-brand">Luminary Press</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Authors</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="smokeCanvas"></canvas>
+
+  <div class="logo-wrap he">
+    <svg class="logo-svg" viewBox="0 0 400 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="184" y="248" width="32" height="14" rx="2" fill="#C9A84C"/>
+      <polygon points="184,252 82,245 82,238 184,246" fill="#C9A84C"/>
+      <polygon points="216,252 318,245 318,238 216,246" fill="#C9A84C"/>
+      <polygon points="184,250 78,238 94,232" fill="#C9A84C"/>
+      <polygon points="184,250 62,212 80,206" fill="#C9A84C"/>
+      <polygon points="184,250 70,184 88,180" fill="#C9A84C"/>
+      <polygon points="184,250 90,158 106,157" fill="#C9A84C"/>
+      <polygon points="184,250 124,136 138,137" fill="#C9A84C"/>
+      <polygon points="184,250 162,120 172,122" fill="#C9A84C"/>
+      <polygon points="184,250 194,48 206,48" fill="#C9A84C"/>
+      <polygon points="216,250 238,120 228,122" fill="#C9A84C"/>
+      <polygon points="216,250 276,136 262,137" fill="#C9A84C"/>
+      <polygon points="216,250 310,158 294,157" fill="#C9A84C"/>
+      <polygon points="216,250 330,184 312,180" fill="#C9A84C"/>
+      <polygon points="216,250 338,212 320,206" fill="#C9A84C"/>
+      <polygon points="216,250 322,238 306,232" fill="#C9A84C"/>
+      <polygon points="190,250 150,94 165,98" fill="#B8943E" opacity=".65"/>
+      <polygon points="210,250 250,94 235,98" fill="#B8943E" opacity=".65"/>
+    </svg>
+  </div>
+
+  <div class="hero-wordmark he he2">
+    <h1>LUMINARY</h1>
+    <span class="sub">P &nbsp;&nbsp; R &nbsp;&nbsp; E &nbsp;&nbsp; S &nbsp;&nbsp; S</span>
+  </div>
+
+  <p class="hero-tagline he he3">
+    Where exceptional books find their <em style="color:var(--gold)">audience</em> — and authors step into their <em style="color:var(--gold)">light</em>.
+  </p>
+
+  <div class="ticker-wrap he he5">
+    <div class="ticker-track">
+      <span class="ticker-item">Book Promotion<span>✦</span></span>
+      <span class="ticker-item">Book Marketing<span>✦</span></span>
+      <span class="ticker-item">Video Trailers<span>✦</span></span>
+      <span class="ticker-item">Cover Design<span>✦</span></span>
+      <span class="ticker-item">Bookmark Layouts<span>✦</span></span>
+      <span class="ticker-item">Book Features<span>✦</span></span>
+      <span class="ticker-item">Author Networking<span>✦</span></span>
+      <span class="ticker-item">Book Promotion<span>✦</span></span>
+      <span class="ticker-item">Book Marketing<span>✦</span></span>
+      <span class="ticker-item">Video Trailers<span>✦</span></span>
+      <span class="ticker-item">Cover Design<span>✦</span></span>
+      <span class="ticker-item">Bookmark Layouts<span>✦</span></span>
+      <span class="ticker-item">Book Features<span>✦</span></span>
+      <span class="ticker-item">Author Networking<span>✦</span></span>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="stats-strip-outer">
+  <div class="stats-strip">
+    <div class="stat-cell reveal">
+      <span class="stat-num"><span class="count-num" data-target="100">0</span>+</span>
+      <span class="stat-label">Authors Served</span>
+      <span class="stat-sub">and growing</span>
+    </div>
+    <div class="stat-cell reveal rd1">
+      <span class="stat-num"><span class="count-num" data-target="2.1" data-decimal="1">0</span>M</span>
+      <span class="stat-label">Readers Reached</span>
+      <span class="stat-sub">across all channels</span>
+    </div>
+    <div class="stat-cell reveal rd2">
+      <span class="stat-num"><span class="count-num" data-target="340">0</span>%</span>
+      <span class="stat-label">Avg Sales Growth</span>
+      <span class="stat-sub">post-campaign</span>
+    </div>
+    <div class="stat-cell reveal rd3">
+      <span class="stat-num"><span class="count-num" data-target="98">0</span>%</span>
+      <span class="stat-label">Client Satisfaction</span>
+      <span class="stat-sub">repeat & referred</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label reveal">Our Mission</div>
+  <h2 class="sec-title reveal rd1">Crafted for authors who<br><em>refuse to be overlooked</em></h2>
+  <div class="about-body">
+    <div class="about-text reveal rd2">
+      <p>Luminary Press was built on a singular conviction: <strong>great writing deserves a great audience</strong>. We combine refined marketing craft with real industry relationships to give every book the platform it was written for.</p>
+      <p>From debut indie authors to established publishers, every campaign is tailored with the same obsession — <strong>visibility that converts into loyal, lifelong readers</strong>.</p>
+    </div>
+    <div class="about-pull reveal rd3">
+      "We don't just promote books — we build the kind of cultural presence that makes readers feel they discovered something rare."
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<div class="services-outer" id="services">
+  <div class="services-inner">
+    <div class="sec-label reveal">What We Offer</div>
+    <h2 class="sec-title reveal rd1">A full suite of <em>publishing services</em></h2>
+    <div class="services-grid">
+
+      <div class="svc-card reveal rd1">
+        <span class="svc-num">01</span>
+        <div class="svc-title">Book Promotion</div>
+        <p class="svc-desc">Strategic multi-channel campaigns — blog tours, social outreach, press releases, and media placements crafted for maximum, lasting reach.</p>
+      </div>
+
+      <div class="svc-card reveal rd2">
+        <span class="svc-num">02</span>
+        <div class="svc-title">Book Marketing</div>
+        <p class="svc-desc">Data-informed strategies including Amazon optimization, email campaigns, and precision reader targeting that turn browsers into devoted buyers.</p>
+      </div>
+
+      <div class="svc-card reveal rd3">
+        <span class="svc-num">03</span>
+        <div class="svc-title">Book Video Trailers</div>
+        <p class="svc-desc">Cinematic trailers that capture your book's essence — arresting enough to stop a scroll, compelling enough to drive pre-orders.</p>
+      </div>
+
+      <div class="svc-card reveal rd4">
+        <span class="svc-num">04</span>
+        <div class="svc-title">Book Cover Design</div>
+        <p class="svc-desc">Genre-intelligent cover art with intentional typography and visual hierarchy. Designed to compel — in thumbnail and in hand.</p>
+      </div>
+
+      <div class="svc-card reveal rd5">
+        <span class="svc-num">05</span>
+        <div class="svc-title">Bookmark & Layout</div>
+        <p class="svc-desc">Premium physical and digital collateral — bookmarks, sell sheets, and promotional layouts that reinforce your book's brand at every touchpoint.</p>
+      </div>
+
+      <div class="svc-card reveal rd6">
+        <span class="svc-num">06</span>
+        <div class="svc-title">Features & Networking</div>
+        <p class="svc-desc">Editorial spotlights, book club introductions, and curated connections to literary influencers and publishing industry contacts.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="sec-label reveal">How It Works</div>
+  <h2 class="sec-title reveal rd1">A deliberate <em>process</em>,<br>exceptional results</h2>
+  <div class="process-list">
+    <div class="proc-item reveal">
+      <div class="proc-num">01</div>
+      <div class="proc-content">
+        <h3>Discovery & Strategy</h3>
+        <p>A deep consultation — your book, your genre, your reader, your goals. We build a bespoke campaign strategy before a single asset is produced.</p>
+      </div>
+    </div>
+    <div class="proc-item reveal rd1">
+      <div class="proc-num">02</div>
+      <div class="proc-content">
+        <h3>Creative Production</h3>
+        <p>Covers, trailers, press kits, bookmarks — every asset executed to an exacting standard. No templates. No shortcuts.</p>
+      </div>
+    </div>
+    <div class="proc-item reveal rd2">
+      <div class="proc-num">03</div>
+      <div class="proc-content">
+        <h3>Amplified Launch</h3>
+        <p>Simultaneous deployment across social, review sites, book communities, press outlets, and influencer networks — timed for peak impact.</p>
+      </div>
+    </div>
+    <div class="proc-item reveal rd3">
+      <div class="proc-num">04</div>
+      <div class="proc-content">
+        <h3>Sustained Momentum</h3>
+        <p>A book's life extends far beyond launch day. We continue building visibility through ongoing features, networking introductions, and audience cultivation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<div class="testi-outer" id="testimonials">
+  <div class="testi-inner">
+    <div class="sec-label reveal">Author Voices</div>
+    <h2 class="sec-title reveal rd1">Words from the <em>authors we serve</em></h2>
+    <div class="testi-grid">
+      <div class="testi-card reveal rd1">
+        <p class="testi-text">"Luminary Press didn't just market my novel — they understood its soul. The campaign felt curated, personal, and powerful. My book found readers I never imagined reaching."</p>
+        <div class="testi-author">M. Adaora</div>
+        <div class="testi-role">Literary Fiction Author</div>
+      </div>
+      <div class="testi-card reveal rd2">
+        <p class="testi-text">"The video trailer they produced was breathtaking. Within two weeks of launch it had over 40,000 views — and the cover redesign alone doubled my conversion rate."</p>
+        <div class="testi-author">D. Okonkwo</div>
+        <div class="testi-role">Thriller & Suspense Author</div>
+      </div>
+      <div class="testi-card reveal rd3">
+        <p class="testi-text">"Their network is extraordinary. Within a month I had three book club features, a podcast tour, and a retail placement I'd been chasing for two years."</p>
+        <div class="testi-author">S. Mensah</div>
+        <div class="testi-role">Self-Help & Memoir</div>
+      </div>
+      <div class="testi-card reveal rd4">
+        <p class="testi-text">"Finally a team that treats indie authors with the same gravity as traditional publishing. The results speak — 340% sales growth in 90 days. I'm a lifer."</p>
+        <div class="testi-author">T. Williams</div>
+        <div class="testi-role">Women's Fiction & Romance</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="sec-label reveal" style="justify-content:center;"><span>Begin Your Journey</span></div>
+  <h2 class="cta-title reveal rd1">Your book is ready.<br><em>Is the world?</em><br>Let's make sure.</h2>
+  <p style="color:var(--ts);font-style:italic;margin-bottom:36px;font-size:1rem" class="reveal rd2">Every great campaign begins with a single conversation.</p>
+  <a href="mailto:luminarypress.connect@gmail.com" class="cta-btn reveal rd3">
+    <span>✦ &nbsp; Get In Touch &nbsp; ✦</span>
+  </a>
+  <p class="cta-email-label reveal rd4">luminarypress.connect@gmail.com</p>
+</section>
+
+<footer>
+  <div class="foot-brand">Luminary Press</div>
+  <div class="foot-copy">© 2026 Luminary Press · luminarypress.connect@gmail.com · All rights reserved.</div>
+</footer>
+
+<script>
+// ── SMOKE / INK CANVAS ──
+(function(){
+  const canvas = document.getElementById('smokeCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize(){
+    W = canvas.width = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const GOLD_COLORS = [
+    'rgba(201,168,76,',
+    'rgba(226,194,125,',
+    'rgba(245,230,192,',
+    'rgba(184,148,62,',
+  ];
+
+  class Particle {
+    constructor(){this.reset(true)}
+    reset(init){
+      // spawn from book spine area — centre-bottom of hero
+      this.x = W * 0.5 + (Math.random()-0.5)*60;
+      this.y = init ? H*(0.3+Math.random()*0.4) : H*0.62 + (Math.random()-0.5)*30;
+      this.vx = (Math.random()-0.5)*0.45;
+      this.vy = -(0.35 + Math.random()*0.55);
+      this.life = 0;
+      this.maxLife = 180 + Math.random()*160;
+      this.size = 18 + Math.random()*38;
+      this.color = GOLD_COLORS[Math.floor(Math.random()*GOLD_COLORS.length)];
+      this.rot = Math.random()*Math.PI*2;
+      this.rotV = (Math.random()-0.5)*0.008;
+      this.waver = (Math.random()-0.5)*0.012;
+    }
+    update(){
+      this.life++;
+      this.x += this.vx + Math.sin(this.life*this.waver)*0.3;
+      this.y += this.vy;
+      this.vy *= 0.998;
+      this.rot += this.rotV;
+      this.vx *= 0.997;
+      if(this.life>=this.maxLife) this.reset(false);
+    }
+    draw(){
+      const prog = this.life/this.maxLife;
+      const alpha = prog < 0.15
+        ? (prog/0.15)*0.12
+        : prog > 0.7
+          ? ((1-prog)/0.3)*0.12
+          : 0.12;
+      if(alpha<=0) return;
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.rot);
+      ctx.scale(1+prog*0.6, 1+prog*1.2);
+      const g = ctx.createRadialGradient(0,0,0,0,0,this.size);
+      g.addColorStop(0, this.color+(alpha*0.9)+')');
+      g.addColorStop(0.5, this.color+(alpha*0.4)+')');
+      g.addColorStop(1, this.color+'0)');
+      ctx.fillStyle = g;
+      ctx.beginPath();
+      ctx.arc(0,0,this.size,0,Math.PI*2);
+      ctx.fill();
+      ctx.restore();
+    }
+  }
+
+  // spawn particles
+  for(let i=0;i<55;i++) particles.push(new Particle());
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{p.update();p.draw()});
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+
+// ── SCROLL REVEAL ──
+const revEls = document.querySelectorAll('.reveal');
+const revObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible') });
+},{threshold:0.1,rootMargin:'0px 0px -36px 0px'});
+revEls.forEach(el=>revObs.observe(el));
+
+// ── NAV SCROLL ──
+const nav = document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+// ── COUNT-UP ──
+function countUp(el){
+  const target = parseFloat(el.dataset.target);
+  const dec = parseInt(el.dataset.decimal||'0');
+  const dur = 1800;
+  const start = performance.now();
+  function frame(now){
+    const t = Math.min((now-start)/dur,1);
+    const ease = 1-Math.pow(1-t,3);
+    const val = target*ease;
+    el.textContent = dec>0 ? val.toFixed(dec) : Math.round(val);
+    if(t<1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+const countObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.count-num').forEach(countUp);
+      countObs.unobserve(e.target);
+    }
+  });
+},{threshold:0.4});
+document.querySelectorAll('.stats-strip').forEach(s=>countObs.observe(s));
+</script>
+</body>
+</html>
